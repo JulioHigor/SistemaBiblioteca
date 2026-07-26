@@ -11,7 +11,7 @@ def mostrar_menu():
     print("6 - Sair")
     print(" ")
 
-def encontrar_livro(livro, buscar):
+def encontrar_livro(livros, buscar):
     for livro in livros:
         if buscar.lower() in livro["titulo"].lower():
             return livro
@@ -21,7 +21,12 @@ def encontrar_livro(livro, buscar):
 def cadastrar_livro(livros):
     print("1 - Cadastrando Livro")
     nome = input("qual livro deseja cadastrar ?: ")
-    ano = int(input("ano: "))
+    while True:
+        try:
+            ano = int(input("Ano: "))
+            break
+        except ValueError:
+            print("Digite um número válido.")
     autor = input("Autor: ")
     livro = {
         "titulo": nome,
@@ -75,8 +80,13 @@ def editar_livro(livros):
     if livro:
         livro["titulo"] = input("Novo título: ")
         livro["autor"] = input("Novo autor: ")
-        livro["ano"] = int(input("Novo ano: "))
-        print("Livro editado com sucesso!")
+        while True:
+            try:
+                livro["ano"] = int(input("Ano: "))
+                break
+            except ValueError:
+                print("Digite um número válido.")
+            print("Livro editado com sucesso!")
     else:
         print("Livro não encontrado.")
 
@@ -107,4 +117,3 @@ while True:
     
     else:
         print("Código inválido")
-        
