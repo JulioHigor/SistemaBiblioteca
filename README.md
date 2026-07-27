@@ -46,7 +46,7 @@ SistemaBiblioteca/
 1. Clone este repositório:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone <https://github.com/JulioHigor/SistemaBiblioteca.git>
 ```
 
 2. Acesse a pasta do projeto:
