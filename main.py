@@ -1,3 +1,5 @@
+import banco
+
 def mostrar_menu():
     print("=========================")
     print("   Sistema Biblioteca")
@@ -11,14 +13,7 @@ def mostrar_menu():
     print("6 - Sair")
     print(" ")
 
-def encontrar_livro(livros, buscar):
-    for livro in livros:
-        if buscar.lower() in livro["titulo"].lower():
-            return livro
-
-    return None
-
-def cadastrar_livro(livros):
+def cadastrar_livro():
     print("1 - Cadastrando Livro")
     nome = input("qual livro deseja cadastrar ?: ")
     while True:
@@ -28,88 +23,102 @@ def cadastrar_livro(livros):
         except ValueError:
             print("Digite um número válido.")
     autor = input("Autor: ")
-    livro = {
-        "titulo": nome,
-        "autor": autor,
-        "ano": ano }
-    livros.append(livro)
+    
+    banco.cadastrar_livro(nome, autor, ano)
 
-def listar_livros(livros):
-        print("===== LIVROS CADASTRADOS =====")
-        if livros:
-            for livro in livros:
-                print("Título:", livro["titulo"])
-                print("Autor:", livro["autor"])
-                print("Ano:", livro["ano"])
-                print()
-                
-        else:
-            print("sem livros cadastrados")
+def listar_livros():
+    livros = banco.listar_livros()
+    
+    print("===== LIVROS CADASTRADOS =====")
+    
+    if livros:
+        for livro in livros:
+            print("ID:", livro[0])
+            print("Título:", livro[1])
+            print("Autor:", livro[2])
+            print("Ano:", livro[3])
+            print()
 
-def buscar_livro(livros):
+    else:
+        print("Sem livros cadastrados.")
+    
+def buscar_livro():
     buscar = input("Digite o nome do livro: ").strip()
 
-    livro = encontrar_livro(livros, buscar)
+    livros = banco.buscar_livro(buscar)
         
-    if livro:
+    if livros:
         print("Livro encontrado!")
-        print("Título:", livro["titulo"])
-        print("Autor:", livro["autor"])
-        print("Ano:", livro["ano"])                    
-        print()
-
+        
+        for livro in livros:
+            
+            print()
+            print("ID:", livro[0])
+            print("Título:", livro[1])
+            print("Autor:", livro[2])
+            print("Ano:", livro[3])                    
+            print()
     else:
         print("Livro não encontrado.")
 
-def remover_livro(livros):
-    buscar = input("Digite o nome do livro: ").strip()
+def remover_livro():
+    while True:
+        try:
+            id = int(input("Digite o ID do livro: "))
+            
+            break
+        except ValueError:
+            print("Digite um número válido.")
+            
+    
+    banco.remover_livro(id)
+    print("Livro removido com sucesso")
 
-    livro = encontrar_livro(livros, buscar)
-
-    if livro:
-        livros.remove(livro)
-        print("Livro removido com sucesso!")
-    else:
-        print("Livro não encontrado.")
-
-def editar_livro(livros):
-    buscar = input("Digite o nome do livro: ").strip()
-
-    livro = encontrar_livro(livros, buscar)
-
-    if livro:
-        livro["titulo"] = input("Novo título: ")
-        livro["autor"] = input("Novo autor: ")
-        while True:
+def editar_livro():  
+    while True:
+        try:
+            id = int(input("Digite o ID do livro: "))               
+            break
+        except ValueError:
+            print("Digite um ID válido.")
+        
+    titulo = input("Novo título: ")
+    autor = input("Novo autor: ")
+        
+    while True:
             try:
-                livro["ano"] = int(input("Ano: "))
+                ano = int(input("Digite o ano do livro: "))               
                 break
             except ValueError:
-                print("Digite um número válido.")
-            print("Livro editado com sucesso!")
-    else:
-        print("Livro não encontrado.")
+                print("Digite um ano válido.")
+          
+    banco.editar_livro(id, titulo, autor ,ano)        
+    print("Livro editado com sucesso!")
+    
 
-livros = []
 while True:
     mostrar_menu()
-
-    escolha = int(input("Escolha uma opçâo: "))
-
+    while True:
+        try:
+            escolha = int(input("Escolha uma opçâo: "))
+            break
+        except ValueError:
+            print("Digite um número válido.")
+        
     if escolha == 1:
-        cadastrar_livro(livros)
+        cadastrar_livro()
     
     elif escolha == 2:
-        listar_livros(livros)
+        listar_livros()
        
     elif escolha == 3:
-        buscar_livro(livros)
+        buscar_livro()
 
     elif escolha ==4:
-        remover_livro(livros)
+        remover_livro()
 
     elif escolha ==5:
-        editar_livro(livros)   
+        editar_livro()   
 
     elif escolha ==6:
         print("6 - Encerrando Sistema")
