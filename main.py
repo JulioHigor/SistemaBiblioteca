@@ -68,35 +68,41 @@ def remover_livro():
             
             break
         except ValueError:
-            print("Digite um número válido.")
-            
-    
-    banco.remover_livro(id)
-    print("Livro removido com sucesso")
-
-def editar_livro():  
+            print("Digite um ID válido.")
+    livro = banco.buscar_livro_por_id(id)
+    if livro:        
+        banco.remover_livro(id)
+        print("Livro removido com sucesso")
+    else:
+        print("Livro não Encontrado")
+        
+        
+def editar_livro():
     while True:
         try:
             id = int(input("Digite o ID do livro: "))               
             break
         except ValueError:
             print("Digite um ID válido.")
-        
-    titulo = input("Novo título: ")
-    autor = input("Novo autor: ")
-        
-    while True:
+    livro = banco.buscar_livro_por_id(id)
+    if livro:
+        titulo = input("Novo título: ")
+        autor = input("Novo autor: ")
+            
+        while True:
             try:
                 ano = int(input("Digite o ano do livro: "))               
                 break
             except ValueError:
                 print("Digite um ano válido.")
-          
-    banco.editar_livro(id, titulo, autor ,ano)        
-    print("Livro editado com sucesso!")
-    
+        banco.editar_livro(id, titulo, autor, ano)
+        print("Livro editado com sucesso")
+        
+    else:
+        print("Livro não Encontrado")
 
 while True:
+
     mostrar_menu()
     while True:
         try:

@@ -38,6 +38,16 @@ def buscar_livro(busca):
     livros = cursor.fetchall()
     return livros
 
+def buscar_livro_por_id(id):
+    cursor.execute(
+            """
+            SELECT * FROM livros 
+            WHERE id = ? 
+            """,
+            (id,)
+    )
+    return cursor.fetchone()
+                 
 def remover_livro(id):
     cursor.execute(
         """
@@ -58,4 +68,8 @@ def editar_livro(id, titulo, autor, ano):
         (titulo, autor, ano, id)
     )
     conexao.commit()
-        
+    
+    if cursor.rowcount > 0:
+        return True
+    else:
+        return False
